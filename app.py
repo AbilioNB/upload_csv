@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for
 from werkzeug.utils import secure_filename
 import os
+import pandas as pd
+
 
 #Define o caminho relativo da pasta destino
 UPLOAD_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)),'uploads')
@@ -10,6 +12,13 @@ ALLOWED_EXTENSIONS = set(['csv'])
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'developer'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
+def csv_to_dict(arquivo_csv):
+    df = pd.read_csv(arquivo_csv,sep =',')
+    dic_elementos = pd.DataFrame.to_dict(df, orient='index')
+    return dic_elementos;
+
 
 @app.route('/file', methods=['GET'])
 def index():
@@ -29,7 +38,7 @@ def upload_file():
         return 'Arquivo não selecionado'
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
+        dict_resul = csv_to_dict(file)
     return redirect(url_for('index'))
 
 

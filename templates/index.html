@@ -5,14 +5,14 @@
     <title>Input Archive</title>
 </head>
 <body>
-       <h1>Drop your CSV</h1>
+       <h1>Envie sua base CSV</h1>
         <h2 style="color: red">Apenas arquivos .csv são aceitos.</h2>
         <form action="/file/uploaded" method="post" enctype="multipart/form-data">
             <input type="file" name="csv">
             <br>
             <br>
             <input type="submit" value="Enviar">
-
+        <h2>Ao carregar o csv ele será convertido num dicionario python</h2>
         </form>
 </body>
 </html>
